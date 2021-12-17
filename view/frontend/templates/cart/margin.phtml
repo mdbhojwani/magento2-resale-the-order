@@ -1,0 +1,71 @@
+<?php
+/**
+ * Mdbhojwani
+ * Copyright (C) 2021 Mdbhojwani
+ *
+ * @package Mdbhojwani_ResaleTheOrder
+ * @license http://opensource.org/licenses/gpl-3.0.html GNU General Public License,version 3 (GPL-3.0)
+ * @author Mdbhojwani
+ */
+
+/**
+ * @var \Magento\Framework\View\Element\AbstractBlock $block
+ */
+?>
+<div class="block margin"
+     id="block-margin"
+     data-mage-init='{"collapsible":{"openedState": "active", "saveState": false}}'
+>
+    <div class="title" data-role="title">
+        <strong id="block-margin-heading" role="heading" aria-level="2"><?= $block->escapeHtml(__('Reselling The Order?')) ?></strong>
+    </div>
+    <div class="content" data-role="content" aria-labelledby="block-margin-heading">
+        <form id="margin-form"
+              action="<?= $block->escapeUrl($block->getUrl('resaletheorder/cart/marginPost')) ?>"
+              method="post"
+              data-mage-init='{"yourMargin":{"yourMarginSelector": 
+                                               "#margin-form #your_margin",
+                                               "marginMessageSelector": "#margin-form .margin-message",
+                                               "marginEarnedSelector": "#margin-form #margin_earned",
+                                               "removeMarginSelector": "#margin-form #remove-margin",
+                                               "applyButton": "#margin-form button.action.apply",
+                                               "cancelButton": "#margin-form button.action.cancel"}}'>
+            <div class="fieldset margin<?= strlen($block->getMarginEarned()) ? ' applied' : '' ?>">
+                <input type="hidden" name="remove" id="remove-margin" value="0" />
+                <div class="field">
+                    <label for="your_margin" class="label"><span><?= $block->escapeHtml(__('Cash to Be Collected')) ?></span><small style="display: inline-block;width: 100%;"><?= $block->escapeHtml(__('Order Total (' . $block->getFormattedPrice($block->getQuote()->getSubtotal()) . ') + Your Margin')) ?></small></label>
+                    <div class="control">
+                        <input type="number"
+                               class="input-text"
+                               id="your_margin"
+                               name="your_margin"
+                               value="<?= $block->getMarginEarned() ? $block->escapeHtmlAttr(number_format((float)$block->getQuote()->getSubtotal() + $block->getMarginEarned(), 2, '.', '')) : __('') ?>"
+                               placeholder="<?= $block->escapeHtmlAttr(__('Your Margin')) ?>"
+                                <?php if (strlen($block->getMarginEarned())) :?>
+                                   disabled="disabled"
+                                <?php endif; ?>
+                                data-validate="{'validate-greater-than-zero':true}"
+                        />
+                    </div>
+                </div>
+                <div class="field margin-message" <?php if(!$block->getMarginEarned()) { ?>style="display:none;" <?php } ?>>
+                    <span><?= $block->escapeHtml(__('Your Margin: ')) ?></span><strong><?= $block->getFormattedPrice($block->getMarginEarned()) ?></strong>
+                    <input type="hidden" id="margin_earned" name="margin_earned">
+                </div>
+                <div class="actions-toolbar">
+                    <?php if (!strlen($block->getMarginEarned())) :?>
+                    <div class="primary">
+                        <button class="action apply primary" type="button" value="<?= $block->escapeHtmlAttr(__('Apply Margin')) ?>">
+                            <span><?= $block->escapeHtml(__('Apply Margin')) ?></span>
+                        </button>
+                    </div>
+                    <?php else :?>
+                        <div class="primary">
+                            <button  type="button" class="action cancel primary" value="<?= $block->escapeHtmlAttr(__('Cancel Margin')) ?>"><span><?= $block->escapeHtml(__('Cancel Margin')) ?></span></button>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

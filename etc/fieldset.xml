@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Mdbhojwani
+ * Copyright (C) 2021 Mdbhojwani
+ *
+ * @package Mdbhojwani_ResaleTheOrder
+ * @license http://opensource.org/licenses/gpl-3.0.html GNU General Public License,version 3 (GPL-3.0)
+ * @author Mdbhojwani
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:DataObject/etc/fieldset.xsd">
+    <scope id="global">
+        <fieldset id="sales_convert_quote">
+            <field name="margin_earned">
+                <aspect name="to_order"/>
+            </field>
+        </fieldset>
+    </scope>
+</config>

@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Mdbhojwani
+ * Copyright (C) 2021 Mdbhojwani
+ *
+ * @package Mdbhojwani_ResaleTheOrder
+ * @license http://opensource.org/licenses/gpl-3.0.html GNU General Public License,version 3 (GPL-3.0)
+ * @author Mdbhojwani
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="checkout_cart_item_renderers"/>
+    <body>
+        <referenceContainer name="cart.summary">
+            <block class="Mdbhojwani\ResaleTheOrder\Block\Cart\Margin" name="checkout.cart.margin" as="margin" after="checkout.cart.shipping" template="Mdbhojwani_ResaleTheOrder::cart/margin.phtml"/>
+        </referenceContainer>
+        <referenceBlock name="checkout.cart.totals">
+            <arguments>
+                <argument name="jsLayout" xsi:type="array">
+                    <item name="components" xsi:type="array">
+                        <item name="block-totals" xsi:type="array">
+                            <item name="children" xsi:type="array">
+                                <item name="margin_earned" xsi:type="array">
+                                    <item name="component"  xsi:type="string">Mdbhojwani_ResaleTheOrder/js/view/checkout/cart/totals/margin</item>
+                                    <item name="sortOrder" xsi:type="string">20</item>
+                                    <item name="config" xsi:type="array">
+                                         <item name="template" xsi:type="string">Mdbhojwani_ResaleTheOrder/checkout/cart/totals/margin</item>
+                                        <item name="title" xsi:type="string" translate="true">Margin Earned</item>
+                                    </item>
+                                </item>
+                            </item>
+                        </item>
+                    </item>
+                </argument>
+            </arguments>
+        </referenceBlock>
+    </body>
+</page>

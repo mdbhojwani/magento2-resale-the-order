@@ -1,0 +1,22 @@
+<!--
+/**
+ * Mdbhojwani
+ * Copyright (C) 2021 Mdbhojwani
+ *
+ * @package Mdbhojwani_ResaleTheOrder
+ * @license http://opensource.org/licenses/gpl-3.0.html GNU General Public License,version 3 (GPL-3.0)
+ * @author Mdbhojwani
+ */
+-->
+<!-- ko -->
+    <tr data-bind="visible: isDisplayed()" class="totals fee excl">
+        <th class="mark" scope="row">
+            <span class="label" data-bind="text: title"></span>
+            <span class="value" data-bind="text: getValue()"></span>
+        </th>
+        <td class="amount">
+            <span class="price"
+                  data-bind="text: getValue(), attr: {'data-th': title}"></span>
+        </td>
+    </tr>   
+<!-- /ko -->
