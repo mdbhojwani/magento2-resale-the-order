@@ -1,32 +1,26 @@
 {
-    "name": "mdbhojwani/resaletheorder",
-    "description": "Mdbhojwani ResaleTheOrder",
-    "require": {
-      "php": "~5.6.0|7.0.2|~7.0.6",
-      "magento/module-store": "0.74.0-beta4",
-      "magento/module-theme": "0.74.0-beta4",
-      "magento/module-widget": "0.74.0-beta4",
-      "magento/module-backend": "0.74.0-beta4",
-      "magento/module-catalog": "0.74.0-beta4",
-      "magento/module-email": "0.74.0-beta4",
-      "magento/module-ui": "0.74.0-beta4",
-      "magento/module-variable": "0.74.0-beta4",
-      "magento/module-media-storage": "0.74.0-beta4",
-      "magento/framework": "0.74.0-beta4",
-      "magento/magento-composer-installer": "*"
-    },
+    "name": "mdbhojwani/magento2-resale-the-order",
+    "description": "Magento 2 Resale The Order",
+    "keywords": ["magento", "magento2", "magento2 extension", "magento 2 extension", "extension", "module", "magento2 module", "checkout", "comission", "comission fee"],
     "type": "magento2-module",
-    "version": "0.74.0-beta4",
-    "license": [
-        "OSL-3.0",
-        "AFL-3.0"
+    "version": "1.0.0",
+    "homepage": "https://github.com/mdbhojwani/magento2-resale-the-order",
+    "authors": [
+    {
+        "name": "Manish Bhojwani",
+        "email": "manishbhojwani3@gmail.com",
+        "homepage": "https://github.com/mdbhojwani"
+    }
     ],
-    "extra": {
-        "map": [
-            [
-                "*",
-                "Mdbhojwani/ResaleTheOrder"
-            ]
-        ]
+    "license": [
+        "OSL-3.0"
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Mdbhojwani\\ResaleTheOrder\\": ""
+        }
     }
 }

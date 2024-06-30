@@ -1,10 +1,9 @@
 /**
- * Mdbhojwani
- * Copyright (C) 2021 Mdbhojwani
- *
+ * @category Mdbhojwani
  * @package Mdbhojwani_ResaleTheOrder
- * @license http://opensource.org/licenses/gpl-3.0.html GNU General Public License,version 3 (GPL-3.0)
- * @author Mdbhojwani
+ * @author Manish Bhojwani <manishbhojwani3@gmail.com>
+ * @github https://github.com/mdbhojwani
+ * @license http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 define(
     [
@@ -28,11 +27,16 @@ define(
             getValue: function() {
                 var price = 0;
                 if (this.totals()) {
+                    console.log(totals);
                     var segment = totals.getSegment('margin_earned');
+                    console.log("segment");
+                    console.log(segment);
                     if (segment) {
+                        console.log(segment.value);
                         price = segment.value;
                     }
                 }
+                console.log("price: " + price);
                 return this.getFormattedPrice(price);
             },
             getBaseValue: function() {
@@ -44,12 +48,17 @@ define(
             },
             getPureValue: function () {
                 var price = 0;
-                if (this.totals) {
+                if (this.totals()) {
+                    console.log(totals);
                     var segment = totals.getSegment('margin_earned');
+                    console.log("segment2");
+                    console.log(segment);
                     if (segment) {
+                        console.log(segment.value);
                         price = segment.value;
                     }
                 }
+                console.log("price2: " + price);
                 return price;
             }
         });

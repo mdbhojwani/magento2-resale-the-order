@@ -1,15 +1,16 @@
 <?php
 /**
- * Mdbhojwani
- * Copyright (C) 2021 Mdbhojwani
- *
+ * @category Mdbhojwani
  * @package Mdbhojwani_ResaleTheOrder
- * @license http://opensource.org/licenses/gpl-3.0.html GNU General Public License,version 3 (GPL-3.0)
- * @author Mdbhojwani
+ * @author Manish Bhojwani <manishbhojwani3@gmail.com>
+ * @github https://github.com/mdbhojwani
+ * @license http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 namespace Mdbhojwani\ResaleTheOrder\Model\Total;
 
-
+/**
+ * Class Margin
+ */
 class Margin extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
 {
    /**
@@ -22,11 +23,18 @@ class Margin extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
      */
     protected $quoteValidator = null; 
     
-    public function __construct(\Magento\Quote\Model\QuoteValidator $quoteValidator)
-    {
+    /**
+     * \Magento\Quote\Model\QuoteValidator $quoteValidator
+     */
+    public function __construct(
+        \Magento\Quote\Model\QuoteValidator $quoteValidator
+    ) {
         $this->quoteValidator = $quoteValidator;
     }
 
+    /**
+     * Collect Margin and save against order
+     */
     public function collect(
         \Magento\Quote\Model\Quote $quote,
         \Magento\Quote\Api\Data\ShippingAssignmentInterface $shippingAssignment,
@@ -45,10 +53,12 @@ class Margin extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
         $total->setGrandTotal($total->getGrandTotal() + $marginEarned);
         $total->setBaseGrandTotal($total->getBaseGrandTotal() + $marginEarned);
 
-
         return $this;
     } 
     
+    /**
+     * Clear totals
+     */
     protected function clearValues(Address\Total $total)
     {
         $total->setTotalAmount('subtotal', 0);
