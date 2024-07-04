@@ -8,7 +8,6 @@
  */
 namespace Mdbhojwani\ResaleTheOrder\Block\Sales\Order;
 
-
 /**
  * Tax totals modification block. Can be used just as subblock of \Magento\Sales\Block\Order\Totals
  */
@@ -111,8 +110,7 @@ class Margin extends \Magento\Framework\View\Element\Template
                 [
                     'code' => 'margin_earned',
                     'strong' => false,
-                    //'value' => $this->_order->getMarginEarned(),
-                    'value' => $this->_source->getMarginEarned(),
+                    'value' => $this->_order->getMarginEarned(),
                     'label' => __('Margin Earned'),
                 ]
             );
@@ -121,5 +119,4 @@ class Margin extends \Magento\Framework\View\Element\Template
 
             return $this;
     }
-
 }

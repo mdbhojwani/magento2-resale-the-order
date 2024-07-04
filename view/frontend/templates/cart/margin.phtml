@@ -9,11 +9,12 @@
 /**
  * @var \Magento\Framework\View\Element\AbstractBlock $block
  */
-?>
+$marginEarned = $block->getMarginEarned() ?? '';
+$helper = $this->helper('Mdbhojwani\ResaleTheOrder\Helper\Data');
+if ($helper->isEnabled()): ?>
 <div class="block margin"
      id="block-margin"
-     data-mage-init='{"collapsible":{"openedState": "active", "saveState": false}}'
->
+     data-mage-init='{"collapsible":{"openedState": "active", "saveState": false}}'>
     <div class="title" data-role="title">
         <strong id="block-margin-heading" role="heading" aria-level="2"><?= $block->escapeHtml(__('Reselling The Order?')) ?></strong>
     </div>
@@ -28,7 +29,7 @@
                                                "removeMarginSelector": "#margin-form #remove-margin",
                                                "applyButton": "#margin-form button.action.apply",
                                                "cancelButton": "#margin-form button.action.cancel"}}'>
-            <div class="fieldset margin<?= strlen($block->getMarginEarned()) ? ' applied' : '' ?>">
+            <div class="fieldset margin<?= strlen($marginEarned) ? ' applied' : '' ?>">
                 <input type="hidden" name="remove" id="remove-margin" value="0" />
                 <div class="field">
                     <label for="your_margin" class="label"><span><?= $block->escapeHtml(__('Cash to Be Collected')) ?></span><small style="display: inline-block;width: 100%;"><?= $block->escapeHtml(__('Order Total (' . $block->getFormattedPrice($block->getQuote()->getSubtotal()) . ') + Your Margin')) ?></small></label>
@@ -37,21 +38,21 @@
                                class="input-text"
                                id="your_margin"
                                name="your_margin"
-                               value="<?= $block->getMarginEarned() ? $block->escapeHtmlAttr(number_format((float)$block->getQuote()->getSubtotal() + $block->getMarginEarned(), 2, '.', '')) : __('') ?>"
+                               value="<?= $marginEarned ? $block->escapeHtmlAttr(number_format((float)$marginEarned, 2, '.', '')) : __('') ?>"
                                placeholder="<?= $block->escapeHtmlAttr(__('Your Margin')) ?>"
-                                <?php if (strlen($block->getMarginEarned())) :?>
+                                <?php if (strlen($marginEarned)) :?>
                                    disabled="disabled"
                                 <?php endif; ?>
                                 data-validate="{'validate-greater-than-zero':true}"
                         />
                     </div>
                 </div>
-                <div class="field margin-message" <?php if(!$block->getMarginEarned()) { ?>style="display:none;" <?php } ?>>
-                    <span><?= $block->escapeHtml(__('Your Margin: ')) ?></span><strong><?= $block->getFormattedPrice($block->getMarginEarned()) ?></strong>
+                <div class="field margin-message" <?php if(!$marginEarned) { ?>style="display:none;" <?php } ?>>
+                    <span><?= $block->escapeHtml(__('Your Margin: ')) ?></span><strong><?= $block->getFormattedPrice((float)$marginEarned) ?></strong>
                     <input type="hidden" id="margin_earned" name="margin_earned">
                 </div>
                 <div class="actions-toolbar">
-                    <?php if (!strlen($block->getMarginEarned())) :?>
+                    <?php if (!strlen($marginEarned)) :?>
                     <div class="primary">
                         <button class="action apply primary" type="button" value="<?= $block->escapeHtmlAttr(__('Apply Margin')) ?>">
                             <span><?= $block->escapeHtml(__('Apply Margin')) ?></span>
@@ -67,3 +68,4 @@
         </form>
     </div>
 </div>
+<?php endif;

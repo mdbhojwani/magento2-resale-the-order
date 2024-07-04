@@ -14,4 +14,3 @@
         <observer name="mdbhojwani_resaletheorder_your_margin" instance="Mdbhojwani\ResaleTheOrder\Observer\AddMarginToOrderObserver" />
     </event>
 </config>
-			

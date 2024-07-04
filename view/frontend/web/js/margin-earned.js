@@ -28,14 +28,14 @@ define([
             $(this.yourMargin).on('keyup', $.proxy(function () {
                 var yourMargin = this.yourMargin.val();
                 var subTotal = this.getSubtotal();
-                var marginEarned = yourMargin - subTotal;
+                var marginEarned = parseFloat(yourMargin) + parseFloat(subTotal);
                 
                 this.marginMessage.hide();
                 this.marginMessageUpdate.html('');
 
                 if (yourMargin) {
-                    this.marginMessageUpdate.html(priceUtils.formatPrice(marginEarned, quote.getPriceFormat()));
-                    this.marginEarned.val(marginEarned);
+                    this.marginMessageUpdate.html(priceUtils.formatPrice(yourMargin, quote.getPriceFormat()));
+                    this.marginEarned.val(yourMargin);
                     this.marginMessage.show();
                 }
 

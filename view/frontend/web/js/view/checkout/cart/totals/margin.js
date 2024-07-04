@@ -18,8 +18,6 @@ define(
              * @override
              */
             isDisplayed: function () {
-                console.log(this.isFullMode());
-                console.log(this.getPureValue());
                 return this.isFullMode() && this.getPureValue() != 0;
             }
         });

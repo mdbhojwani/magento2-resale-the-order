@@ -9,6 +9,7 @@
 namespace Mdbhojwani\ResaleTheOrder\Controller\Cart;
 
 use Magento\Framework\App\Action\HttpPostActionInterface as HttpPostActionInterface;
+use Mdbhojwani\ResaleTheOrder\Helper\Data as Helper;
 
 /**
  * Class MarginPost
@@ -30,6 +31,11 @@ class MarginPost extends \Magento\Checkout\Controller\Cart implements HttpPostAc
     private $priceHelper;
 
     /**
+     * @var Helper
+     */
+    private $helper;
+
+    /**
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Checkout\Model\Session $checkoutSession
@@ -38,6 +44,7 @@ class MarginPost extends \Magento\Checkout\Controller\Cart implements HttpPostAc
      * @param \Magento\Checkout\Model\Cart $cart
      * @param \Magento\Quote\Api\CartRepositoryInterface $quoteRepository
      * @param \Magento\Framework\Pricing\Helper\Data $priceHelper
+     * @param Helper $helper
      * @codeCoverageIgnore
      */
     public function __construct(
@@ -48,7 +55,8 @@ class MarginPost extends \Magento\Checkout\Controller\Cart implements HttpPostAc
         \Magento\Framework\Data\Form\FormKey\Validator $formKeyValidator,
         \Magento\Checkout\Model\Cart $cart,
         \Magento\Quote\Api\CartRepositoryInterface $quoteRepository,
-        \Magento\Framework\Pricing\Helper\Data $priceHelper
+        \Magento\Framework\Pricing\Helper\Data $priceHelper,
+        Helper $helper
     ) {
         parent::__construct(
             $context,
@@ -60,6 +68,7 @@ class MarginPost extends \Magento\Checkout\Controller\Cart implements HttpPostAc
         );
         $this->quoteRepository = $quoteRepository;
         $this->priceHelper = $priceHelper;
+        $this->helper = $helper;
     }
 
     /**
@@ -71,14 +80,19 @@ class MarginPost extends \Magento\Checkout\Controller\Cart implements HttpPostAc
      */
     public function execute()
     {
+        if (!$this->helper->isEnabled()) {
+            $this->messageManager->addErrorMessage(__('Module is disabled.'));
+            return $this->_goBack();
+        }
+
         $marginEarned = $this->getRequest()->getParam('remove') == 1
             ? null
-            : trim($this->getRequest()->getParam('margin_earned'));
+            : trim($this->getRequest()->getParam('your_margin'));
 
         $cartQuote = $this->cart->getQuote();
         $oldMarginEarned = $cartQuote->getMarginEarned();
 
-        $codeLength = strlen($marginEarned);
+        $codeLength = strlen($marginEarned ?? '');
         if (!$codeLength && !strlen($oldMarginEarned)) {
             return $this->_goBack();
         }

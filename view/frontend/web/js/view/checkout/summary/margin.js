@@ -27,7 +27,6 @@ define(
             getValue: function() {
                 var price = 0;
                 if (this.totals()) {
-                    console.log(totals);
                     var segment = totals.getSegment('margin_earned');
                     console.log("segment");
                     console.log(segment);

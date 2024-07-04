@@ -8,10 +8,14 @@
  */
 namespace Mdbhojwani\ResaleTheOrder\Model\Total;
 
+use Magento\Quote\Model\Quote\Address\Total\AbstractTotal;
+use Magento\Quote\Model\QuoteValidator;
+use Mdbhojwani\ResaleTheOrder\Helper\Data as Helper;
+
 /**
  * Class Margin
  */
-class Margin extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
+class Margin extends AbstractTotal
 {
    /**
      * Collect grand total address amount
@@ -21,15 +25,23 @@ class Margin extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
      * @param \Magento\Quote\Model\Quote\Address\Total $total
      * @return $this
      */
-    protected $quoteValidator = null; 
+    protected $quoteValidator = null;
+
+    /**
+     * @var Helper
+     */
+    private $helper;
     
     /**
      * \Magento\Quote\Model\QuoteValidator $quoteValidator
+     * Helper $helper
      */
     public function __construct(
-        \Magento\Quote\Model\QuoteValidator $quoteValidator
+        QuoteValidator $quoteValidator,
+        Helper $helper
     ) {
         $this->quoteValidator = $quoteValidator;
+        $this->helper = $helper;
     }
 
     /**
@@ -41,17 +53,24 @@ class Margin extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
         \Magento\Quote\Model\Quote\Address\Total $total
     ) {
         parent::collect($quote, $shippingAssignment, $total);
-      
-        $marginEarned = $quote->getMarginEarned();
         
-        // $total->setTotalAmount('margin_earned', $marginEarned);
-        // $total->setBaseTotalAmount('margin_earned', $marginEarned);
+        if ($this->helper->isEnabled()) {
+            $marginEarned = $quote->getMarginEarned();
+        
+            // $total->setTotalAmount('margin_earned', $marginEarned);
+            // $total->setBaseTotalAmount('margin_earned', $marginEarned);
 
-        $total->setMarginEarned($marginEarned);
-        $total->setBaseMarginEarned($marginEarned);
-        
-        $total->setGrandTotal($total->getGrandTotal() + $marginEarned);
-        $total->setBaseGrandTotal($total->getBaseGrandTotal() + $marginEarned);
+            $total->setMarginEarned($marginEarned);
+            $total->setBaseMarginEarned($marginEarned);
+            
+            $total->setGrandTotal($total->getGrandTotal() + $marginEarned);
+            $total->setBaseGrandTotal($total->getBaseGrandTotal() + $marginEarned);
+        } else {
+            $total->setMarginEarned(0);
+            $total->setBaseMarginEarned(0);
+            $total->setGrandTotal($total->getGrandTotal());
+            $total->setBaseGrandTotal($total->getBaseGrandTotal());
+        }
 
         return $this;
     } 
@@ -81,13 +100,19 @@ class Margin extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
      * @return array
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function fetch(\Magento\Quote\Model\Quote $quote, \Magento\Quote\Model\Quote\Address\Total $total)
-    {
-        return [
-            'code' => 'margin_earned',
-            'title' => 'Margin Earned',
-            'value' => $total->getMarginEarned()
-        ];
+    public function fetch(
+        \Magento\Quote\Model\Quote $quote, 
+        \Magento\Quote\Model\Quote\Address\Total $total
+    ) {
+        if ($this->helper->isEnabled()) {
+            return [
+                'code' => 'margin_earned',
+                'title' => $this->helper->getTitle(),
+                'value' => $quote->getMarginEarned()
+            ];
+        }
+        
+        return [];
     }
 
     /**
@@ -97,6 +122,6 @@ class Margin extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
      */
     public function getLabel()
     {
-        return __('Margin Earned');
+        return $this->helper->getTitle();
     }
 }
